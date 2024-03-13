@@ -1,25 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+// App.js
+import React, { useState } from 'react';
+import { DndContext } from '@dnd-kit/core';
+import { SortableContext } from '@dnd-kit/sortable';
+import DraggableComponent from './components/DraggableComponent';
+import DesignArea from './components/DesignArea';
+import ComponentArea from './components/ComponentArea';
 
-function App() {
+const App = () => {
+  const [components, setComponents] = useState([]);
+
+  const handleDrop = (droppedItem) => {
+    setComponents((existingItems) => [...existingItems, droppedItem]);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <DndContext>
+      <div style={{ display: 'flex' }}> {/* Parent container */}
+        <ComponentArea /> {/* Component area on the left */}
+        <DesignArea onDrop={handleDrop} components={components} /> {/* Design area on the right */}
+      </div>
+    </DndContext>
   );
-}
+};
 
 export default App;
